@@ -1,0 +1,23 @@
+<Window x:Class="WpfApp1.BookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Книга" Height="500" Width="400" WindowStartupLocation="CenterOwner">
+    <StackPanel Margin="15">
+        <TextBlock Text="Название:"/>
+        <TextBox x:Name="TxtTitle" Margin="0,0,0,10"/>
+
+        <TextBlock Text="Авторы (Ctrl для выбора):"/>
+        <ListBox x:Name="ListAuthors" DisplayMemberPath="FullName" Height="80" SelectionMode="Multiple" Margin="0,0,0,10"/>
+
+        <TextBlock Text="Жанры:"/>
+        <ListBox x:Name="ListGenres" DisplayMemberPath="Name" Height="80" SelectionMode="Multiple" Margin="0,0,0,10"/>
+
+        <TextBlock Text="Год издания:"/>
+        <TextBox x:Name="TxtYear" Margin="0,0,0,10"/>
+
+        <TextBlock Text="ISBN (10 или 13 цифр):"/>
+        <TextBox x:Name="TxtIsbn" MaxLength="13" PreviewTextInput="OnlyNumbers" Margin="0,0,0,10"/>
+
+        <Button Content="Сохранить" Click="BtnSave_Click" Height="30" Background="LightGreen"/>
+    </StackPanel>
+</Window>

@@ -1,0 +1,47 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Библиотека" Height="500" Width="950" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="TxtSearch" Width="150" VerticalAlignment="Center" 
+                     TextChanged="ApplyFilters" Margin="0,0,10,0"/>
+
+            <TextBlock Text="Жанр:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <ComboBox x:Name="ComboGenre" Width="110" DisplayMemberPath="Name" 
+                      SelectionChanged="ApplyFilters"/>
+
+            <TextBlock Text="Автор:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+            <ComboBox x:Name="ComboAuthor" Width="110" DisplayMemberPath="LastName" 
+                      SelectionChanged="ApplyFilters"/>
+
+            <Button Content="Сброс" Click="BtnRefresh_Click" Margin="10,0,10,0" Padding="5,0"/>
+            
+            <Separator Width="1" Margin="5,0"/>
+            <Button Content="Книга +" Click="BtnAdd_Click" Margin="2"/>
+            <Button Content="Книга ✎" Click="BtnEdit_Click" Margin="2"/>
+            <Button Content="Книга 🗑" Click="BtnDelete_Click" Margin="2" Background="#FFE57373"/>
+            
+            <Separator Width="1" Margin="5,0"/>
+            <Button Content="Автор +" Click="BtnManageAuthors_Click" Margin="2"/>
+            <Button Content="Автор ✎" Click="BtnEditAuthor_Click" Margin="2"/>
+        </WrapPanel>
+
+        <DataGrid x:Name="DgBooks" Grid.Row="1" AutoGenerateColumns="False" 
+                  CanUserAddRows="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="2*"/>
+                <DataGridTextColumn Header="Авторы" Binding="{Binding AuthorsDisplay}" Width="1.5*"/>
+                <DataGridTextColumn Header="Жанры" Binding="{Binding GenresDisplay}" Width="*"/>
+                <DataGridTextColumn Header="Год" Binding="{Binding PublishYear}" Width="60"/>
+                <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="110"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
