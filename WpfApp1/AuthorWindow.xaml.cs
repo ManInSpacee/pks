@@ -9,7 +9,6 @@ public partial class AuthorWindow : Window
 {
     public Author Author { get; set; }
 
-    // Конструктор теперь принимает контекст, как и BookWindow
     public AuthorWindow(Author? a, LibraryContext context)
     {
         InitializeComponent();
@@ -24,7 +23,6 @@ public partial class AuthorWindow : Window
         }
         else
         {
-            // По умолчанию ставим дату 30 лет назад
             Author = new Author { BirthDate = DateTime.Now.AddYears(-30) };
             DpBirth.SelectedDate = Author.BirthDate;
         }

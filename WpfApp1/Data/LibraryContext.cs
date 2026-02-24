@@ -22,7 +22,6 @@ public class LibraryContext : DbContext
         modelBuilder.Entity<Book>().Property(b => b.Title).IsRequired().HasMaxLength(200);
         modelBuilder.Entity<Book>().Property(b => b.ISBN).HasMaxLength(20);
 
-        // Настройка многие-ко-многим (автоматически создаст связующие таблицы)
         modelBuilder.Entity<Book>()
             .HasMany(b => b.Authors)
             .WithMany(a => a.Books);

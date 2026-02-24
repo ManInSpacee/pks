@@ -17,7 +17,6 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         
-        // ШАГ 1: РАСКОММЕНТИРУЙ ЭТО, ЗАПУСТИ, УВИДЬ ДАННЫЕ, ПОТОМ ЗАКОММЕНТИРУЙ ОБРАТНО
         _context.Database.EnsureDeleted(); 
         
         _context.Database.EnsureCreated();
@@ -27,9 +26,7 @@ public partial class MainWindow : Window
 
     private void SeedData()
     {
-        // Мы убираем проверку "Any()", чтобы при пересоздании базы данные залились гарантированно
         
-        // 1. Жанры
         var classic = new Genre { Name = "Классика", Description = "Золотой фонд литературы" };
         var sciFi = new Genre { Name = "Фантастика", Description = "Космос и технологии" };
         var detective = new Genre { Name = "Детектив", Description = "Интриги и расследования" };
@@ -44,9 +41,8 @@ public partial class MainWindow : Window
         var doyle = new Author { FirstName = "Артур", LastName = "Конан Дойл", Country = "Великобритания", BirthDate = new DateTime(1859, 5, 22) };
 
         _context.Authors.AddRange(bulgakov, orwell, bradbury, doyle);
-        _context.SaveChanges(); // Сохраняем, чтобы получить ID
+        _context.SaveChanges(); 
 
-        // 3. Книги (связываем напрямую объектами)
         var books = new List<Book>();
 
         var b1 = new Book { Title = "Мастер и Маргарита", PublishYear = 1967, ISBN = "9785170881658" };
@@ -60,7 +56,7 @@ public partial class MainWindow : Window
         books.Add(b2);
 
         var b3 = new Book { Title = "451 градус по Фаренгейту", PublishYear = 1953, ISBN = "9785170942281" };
-        bradbury.Books.Add(b3); // Можно и так
+        bradbury.Books.Add(b3); 
         b3.Genres.Add(sciFi);
         b3.Genres.Add(dystopia);
         books.Add(b3);
@@ -76,7 +72,6 @@ public partial class MainWindow : Window
 
     private void LoadData()
     {
-        // Принудительно загружаем всё из базы
         var books = _context.Books
             .Include(b => b.Authors)
             .Include(b => b.Genres)
@@ -87,23 +82,18 @@ public partial class MainWindow : Window
         ComboAuthor.ItemsSource = _context.Authors.ToList();
     }
 
-    // --- ФИЛЬТРАЦИЯ ---
     private void ApplyFilters(object sender, EventArgs e)
     {
-        // 1. Проверка на инициализацию (чтобы не упало при запуске)
         if (_context == null || TxtSearch == null || ComboGenre == null || ComboAuthor == null) 
             return;
 
-        // 2. Получаем ВСЕ данные из базы в оперативную память (фикс проблем с буквами)
         var allBooks = _context.Books
             .Include(b => b.Authors)
             .Include(b => b.Genres)
             .ToList(); 
 
-        // 3. Начинаем фильтровать уже готовый список
         var filtered = allBooks.AsEnumerable();
 
-        // ПОИСК ПО ТЕКСТУ (Название или ISBN)
         string search = TxtSearch.Text.Trim().ToLower();
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -113,23 +103,19 @@ public partial class MainWindow : Window
             );
         }
 
-        // ФИЛЬТР ПО ЖАНРУ
         if (ComboGenre.SelectedItem is Genre g)
         {
             filtered = filtered.Where(b => b.Genres.Any(genre => genre.Id == g.Id));
         }
 
-        // ФИЛЬТР ПО АВТОРУ
         if (ComboAuthor.SelectedItem is Author a)
         {
             filtered = filtered.Where(b => b.Authors.Any(author => author.Id == a.Id));
         }
 
-        // 4. Выводим результат
         var resultList = filtered.ToList();
         DgBooks.ItemsSource = resultList;
 
-        // Отладка в заголовок (чтобы ты видел, нашла ли что-то программа)
         this.Title = $"Библиотека (Найдено книг: {resultList.Count})";
     }
 
@@ -141,7 +127,6 @@ public partial class MainWindow : Window
         LoadData();
     }
 
-    // --- CRUD ОПЕРАЦИИ (Кнопки) ---
     private void BtnAdd_Click(object sender, RoutedEventArgs e)
     {
         var win = new BookWindow(null, _context) { Owner = this };

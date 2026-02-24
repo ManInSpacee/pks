@@ -13,6 +13,5 @@ public class Author
     
     public virtual ICollection<Book> Books { get; set; } = new List<Book>();
 
-    // Для удобства отображения в списках
     public string FullName => $"{LastName} {FirstName}";
 }
